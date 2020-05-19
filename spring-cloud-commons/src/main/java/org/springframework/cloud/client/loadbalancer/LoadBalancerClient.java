@@ -1,19 +1,3 @@
-/*
- * Copyright 2012-2020 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.springframework.cloud.client.loadbalancer;
 
 import java.io.IOException;
@@ -23,16 +7,17 @@ import org.springframework.cloud.client.ServiceInstance;
 
 /**
  * Represents a client-side load balancer.
- *
+ * todo 客户端负载均衡器
  * @author Spencer Gibb
  */
 public interface LoadBalancerClient extends ServiceInstanceChooser {
 
 	/**
+	 * 使用来自LoadBalancer的ServiceInstance，对起执行请求
 	 * Executes request using a ServiceInstance from the LoadBalancer for the specified
 	 * service.
-	 * @param serviceId The service ID to look up the LoadBalancer.
-	 * @param request Allows implementations to execute pre and post actions, such as
+	 * @param serviceId The service ID to look up the LoadBalancer.  服务实例
+	 * @param request Allows implementations to execute pre and post actions, such as  允许在执行前后添加metric
 	 * incrementing metrics.
 	 * @param <T> type of the response
 	 * @throws IOException in case of IO issues.
@@ -57,13 +42,15 @@ public interface LoadBalancerClient extends ServiceInstanceChooser {
 			LoadBalancerRequest<T> request) throws IOException;
 
 	/**
+	 *
+	 * 创建一个真正的URL包含主机和端口：
 	 * Creates a proper URI with a real host and port for systems to utilize. Some systems
 	 * use a URI with the logical service name as the host, such as
 	 * http://myservice/path/to/service. This will replace the service name with the
 	 * host:port from the ServiceInstance.
-	 * @param instance service instance to reconstruct the URI
-	 * @param original A URI with the host as a logical service name.
-	 * @return A reconstructed URI.
+	 * @param instance service instance to reconstruct the URI  服务实例
+	 * @param original A URI with the host as a logical service name.  源url，是一个包含serviceId或者dns的URL
+	 * @return A reconstructed URI. 重新构造的URL
 	 */
 	URI reconstructURI(ServiceInstance instance, URI original);
 
